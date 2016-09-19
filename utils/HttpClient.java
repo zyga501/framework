@@ -5,6 +5,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.util.EntityUtils;
+import pf.ProjectLogger;
 
 public abstract class HttpClient {
     public boolean getRequest() throws Exception {
@@ -12,13 +13,13 @@ public abstract class HttpClient {
         if (apiUri.isEmpty()) {
             return false;
         }
-        Logger.debug("Request Url:\r\n" + apiUri);
+        ProjectLogger.debug("Request Url:\r\n" + apiUri);
 
         String responseString = HttpUtils.GetRequest(new HttpGet(apiUri), (HttpResponse httpResponse) -> {
             return EntityUtils.toString(httpResponse.getEntity(), "UTF-8");
         });
 
-        Logger.debug("Response Data:\r\n" + responseString);
+        ProjectLogger.debug("Response Data:\r\n" + responseString);
 
         return parseResponse(responseString);
     }
@@ -28,9 +29,9 @@ public abstract class HttpClient {
         if (apiUri.isEmpty()) {
             return false;
         }
-        Logger.debug("Request Url:\r\n" + apiUri);
+        ProjectLogger.debug("Request Url:\r\n" + apiUri);
 
-        Logger.debug("Reqest Data:\r\n" + postData);
+        ProjectLogger.debug("Reqest Data:\r\n" + postData);
 
         HttpPost httpPost = new HttpPost(apiUri);
         StringEntity postEntity = new StringEntity(postData, "UTF-8");
@@ -46,7 +47,7 @@ public abstract class HttpClient {
             httpPost.abort();
         }
 
-        Logger.debug("Response Data:\r\n" + responseString);
+        ProjectLogger.debug("Response Data:\r\n" + responseString);
 
         return parseResponse(responseString);
     }
