@@ -95,9 +95,11 @@ public class AjaxActionSupport extends ActionSupport {
     public String getAjaxActionResult() {
         return ajaxActionResult_;
     }
+
     public String AjaxActionComplete() {
         return AJAXACTIONCOMPLETED;
     }
+
     public String AjaxActionComplete( Map resultMap) {
         ajaxActionResult_ = JSONObject.fromObject(resultMap).toString();
         return AJAXACTIONCOMPLETED;
@@ -126,11 +128,6 @@ public class AjaxActionSupport extends ActionSupport {
         return AjaxActionComplete(resultMap);
     }
 
-    public void ResponseWrite(String rtnString) throws IOException {
-        getResponse().getWriter().print(rtnString);
-        getResponse().getWriter().flush();
-        getResponse().getWriter().close();
-    };
     private String ajaxActionResult_;
     private Map parameterMap_;
 }
