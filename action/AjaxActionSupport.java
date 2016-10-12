@@ -3,13 +3,18 @@ package framework.action;
 import framework.utils.StringUtils;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
+import framework.utils.XMLParser;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.struts2.ServletActionContext;
+import org.xml.sax.SAXException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,6 +77,19 @@ public class AjaxActionSupport extends ActionSupport {
     public void setParameter(Object key, Object value) {
         parameterMap_.put(key, value);
         setParameter(parameterMap_);
+    }
+
+    public Map<String,Object> getInputStreamMap() throws IOException, ParserConfigurationException, IOException, SAXException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(getRequest().getInputStream(), "utf-8"));
+        StringBuilder stringBuilder = new StringBuilder();
+        String lineBuffer;
+        while ((lineBuffer = bufferedReader.readLine()) != null) {
+            stringBuilder.append(lineBuffer);
+        }
+        bufferedReader.close();
+
+        String responseString = stringBuilder.toString();
+        return XMLParser.convertMapFromXml(responseString);
     }
 
     public String getAjaxActionResult() {
