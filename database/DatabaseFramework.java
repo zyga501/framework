@@ -112,5 +112,29 @@ public abstract class DatabaseFramework {
         }
     }
 
+    public int delete(String var1) {
+        SqlSession sqlSession = sqlSessionFactory().openSession();
+        try {
+            int value = sqlSession.delete(var1);
+            sqlSession.commit();
+            return value;
+        }
+        finally {
+            sqlSession.close();
+        }
+    }
+
+    public int delete(String var1, Object var2) {
+        SqlSession sqlSession = sqlSessionFactory().openSession();
+        try {
+            int value = sqlSession.delete(var1, var2);
+            sqlSession.commit();
+            return value;
+        }
+        finally {
+            sqlSession.close();
+        }
+    }
+
     protected abstract SqlSessionFactory sqlSessionFactory();
 }
